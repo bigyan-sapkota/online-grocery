@@ -1,3 +1,4 @@
+import ProtectedRoute from "@/components/protected-route";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import MainLayout from "@/layouts/main-layout";
 import AboutUsPage from "@/pages/about-us-page";
@@ -23,7 +24,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { index: true, element: <DashboardHomePage /> },
       { path: "products", element: <DashboardProductsPage /> },
