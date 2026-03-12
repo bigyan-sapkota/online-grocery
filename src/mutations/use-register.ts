@@ -36,13 +36,14 @@ async function registerUser(data: RegisterPayload): Promise<User> {
       name,
       email,
       password,
-      phone: phone || null,
+      phone: Number(phone) || null,
       image: imageUrl,
     };
 
     const response = await apiClient.post<RegisterResponse>(
       "/api/auth/register",
       payload,
+      { withCredentials: true },
     );
     return response.data.user;
   } catch (error) {

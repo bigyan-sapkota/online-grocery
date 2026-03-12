@@ -5,7 +5,9 @@ import DashboardHomePage from "@/pages/dashboard-home-page";
 import DashboardOrdersPage from "@/pages/dashboard-orders-page";
 import DashboardProductsPage from "@/pages/dashboard-products-page";
 import HomePage from "@/pages/home-page";
+import LoginPage from "@/pages/login-page";
 import ProductsPage from "@/pages/products-page";
+import RegisterPage from "@/pages/register-page";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -15,6 +17,8 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/about-us", element: <AboutUsPage /> },
       { path: "/products", element: <ProductsPage /> },
+      { path: "/login", element: <LoginPage /> },
+      { path: "/register", element: <RegisterPage /> },
     ],
   },
   {
