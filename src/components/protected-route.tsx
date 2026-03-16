@@ -15,7 +15,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (!user) {
     return (
-      <div className="mt-10 border p-6 w-full rounded-xl shadow-lg mx-auto max-w-[800px] text-center space-y-6">
+      <div className="mx-auto mt-10 w-full max-w-[800px] space-y-6 rounded-xl border p-6 text-center shadow-lg">
         <h1 className="text-3xl font-semibold">Login Required</h1>
         <p>
           Sorry you are not logged in and login is required to access this page

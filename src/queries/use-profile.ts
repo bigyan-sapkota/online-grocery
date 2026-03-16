@@ -28,10 +28,9 @@ async function getProfile(): Promise<User> {
   }
 }
 
-
-export const invalidateProfile = () =>{
-    const queryClient = useQueryClient();
-    queryClient.invalidateQueries({
-        queryKey: profileKey,
-    });
+export function invalidateProfile() {
+  const queryClient = useQueryClient();
+  queryClient.invalidateQueries({
+    queryKey: profileKey,
+  });
 }

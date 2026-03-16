@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import DashboardSidebar from "./dashboard-sidebar";
 
 export default function DashboardLayout() {
   return (
     <div className="flex">
-      <aside></aside>
+      <DashboardSidebar />
       <div>
         {/* todo : add header */}
         <Outlet />
