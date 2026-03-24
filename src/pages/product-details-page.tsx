@@ -1,21 +1,44 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useProduct from "@/queries/use-product";
+import useProducts from "@/queries/use-products";
+import ProductCard from "@/components/cards/product-card";
+import { FaArrowRightLong } from "react-icons/fa6";
+import ApiLoader from "@/components/api-loader";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
 
-  const { data: product, isLoading, error } = useProduct(id);
+  const {
+    data: product,
+    isLoading: isProductLoading,
+    isError: isProductError,
+  } = useProduct(id);
 
-  if (isLoading)
-    return <div className="mx-auto max-w-[1200px] p-6">Loading product...</div>;
+  const {
+    data: products,
+    isLoading: isProductsLoading,
+    isError: isProductsError,
+  } = useProducts({ category: product?.category });
 
-  if (error || !product)
+  if (isProductLoading || isProductsLoading) return <ApiLoader />;
+
+  if (isProductError || isProductsError)
+    return (
+      <div className="mx-auto max-w-[1200px] p-6">Error Loading Product</div>
+    );
+
+  if (!product || !products) {
     return <div className="mx-auto max-w-[1200px] p-6">Product not found</div>;
+  }
 
   const discountedPrice =
     product.discount > 0
       ? product.price - (product.price * product.discount) / 100
       : product.price;
+
+  const sameCategoryProducts = products.filter(
+    (item) => item.id !== product.id,
+  );
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-8">
@@ -95,6 +118,27 @@ export default function ProductDetailsPage() {
           </div>
         </div>
       </div>
+
+      {sameCategoryProducts && (
+        <div className="mt-8">
+          <div className="flex items-center gap-3">
+            <div className="bg-primary h-7 w-2"></div>
+            <h2 className="text-xl font-semibold">Recommended for you</h2>
+          </div>
+          <div className="mt-6 grid grid-cols-4 gap-6">
+            {sameCategoryProducts?.slice(0, 4).map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </div>
+
+          <Link
+            to="/products"
+            className="text-primary mt-4 flex items-center justify-center gap-1 transition-colors duration-300 hover:text-green-700"
+          >
+            Load More <FaArrowRightLong />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

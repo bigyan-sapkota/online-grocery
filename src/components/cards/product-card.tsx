@@ -11,7 +11,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div
       key={product.id}
-      className="relative h-70 rounded-xl border bg-white shadow-sm"
+      className="relative h-70 w-full rounded-xl border bg-white shadow-sm"
     >
       <Badge className="absolute top-2 left-2 text-xs">
         {product.category}
@@ -27,7 +27,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           to={`/products/${product.id}`}
           className="hover:text-primary transition-colors duration-300"
         >
-          <h3 className="font-semibold">{product.title}</h3>
+          <h3 className="line-clamp-1 font-semibold">{product.title}</h3>
         </Link>
         <p className="mt-1 text-sm font-semibold tracking-wider">
           NPR.{Math.round(priceAfterDiscount)}{" "}

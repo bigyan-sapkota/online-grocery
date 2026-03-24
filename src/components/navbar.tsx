@@ -1,11 +1,11 @@
-import { IoIosSearch } from "react-icons/io";
-import { FaListUl, FaRegUser } from "react-icons/fa";
-import { IoCartOutline, IoClose } from "react-icons/io5";
-import { useState, type Dispatch, type SetStateAction } from "react";
-import { RiMenu3Line } from "react-icons/ri";
-import { Button } from "./ui/button";
-import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useState, type Dispatch, type SetStateAction } from "react";
+import { FaListUl, FaRegUser } from "react-icons/fa";
+import { IoIosSearch } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
+import { RiMenu3Line } from "react-icons/ri";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
 
 export default function Navbar() {
   const [isNavMenuVisible, setIsNavMenuVisible] = useState<boolean>(false);
@@ -16,9 +16,11 @@ export default function Navbar() {
 
   return (
     <header className="relative mx-auto mt-4 flex max-w-[1440px] items-center justify-between px-4 md:mt-6 lg:h-12">
-      <h1 className="text-primary text-xl font-bold md:text-2xl lg:text-4xl">
-        Online Grocery
-      </h1>
+      <Link to="/">
+        <h1 className="text-primary text-xl font-bold md:text-2xl lg:text-4xl">
+          Online Grocery
+        </h1>
+      </Link>
 
       <div className="hidden lg:block">
         <Navigation />
@@ -88,16 +90,28 @@ function Navigation({ setIsNavMenuVisible }: NavigationProps) {
 }
 
 function SearchBox() {
+  const [searchQuery, setSearchQuery] = useState<string>();
+  const navigate = useNavigate();
+
+  function handleSearch(e: React.SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
+    navigate(`/products?q=${searchQuery}`);
+  }
+
   return (
     <div className="bg-primary/10 flex w-full items-center justify-between rounded-2xl p-3 lg:w-[507px]">
-      <div className="flex items-center">
-        <IoIosSearch className="text-primary size-5" />
+      <form className="flex items-center" onSubmit={(e) => handleSearch(e)}>
+        <button>
+          <IoIosSearch className="text-primary size-5" />
+        </button>
         <input
           type="text"
           placeholder="Search grocery..."
           className="placeholder:text-primary-text w-72 pl-2.5 outline-none"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-      </div>
+      </form>
       <FaListUl className="text-primary size-5" />
     </div>
   );

@@ -1,10 +1,20 @@
 import ProductCard from "@/components/cards/product-card";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import useProducts from "@/queries/use-products";
+import useProducts, { type Category, type Sort } from "@/queries/use-products";
+import { useSearchParams } from "react-router-dom";
 
 export default function ProductsPage() {
-  const { data: products, isLoading } = useProducts();
+  let [searchParams] = useSearchParams();
+
+  const filter = {
+    q: searchParams.get("q") || undefined,
+    price_gte: searchParams.get("price_gte") || undefined,
+    price_lte: searchParams.get("price_lte") || undefined,
+    category: (searchParams.get("category") as Category) || undefined,
+    sort: (searchParams.get("sort") as Sort) || undefined,
+  };
+
+  const { data: products, isLoading } = useProducts(filter);
 
   if (isLoading) {
     return <ProductsLoadingSkeleton />;
@@ -12,8 +22,8 @@ export default function ProductsPage() {
 
   return (
     <div className="mx-auto my-8 flex max-w-[1440px]">
-      <div className="h-150 w-1/5 bg-gray-200"></div>
-      <div className="grid w-4/5 grid-cols-4 gap-8 px-4">
+      <div className="hidden h-150 w-1/5 bg-gray-200 lg:block"></div>
+      <div className="grid grid-cols-2 justify-items-center gap-8 px-4 md:grid-cols-3 lg:w-4/5 lg:grid-cols-4">
         {products?.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
