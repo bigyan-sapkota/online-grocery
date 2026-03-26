@@ -6,6 +6,9 @@ import { IoClose } from "react-icons/io5";
 import { RiMenu3Line } from "react-icons/ri";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import useProfile from "@/queries/use-profile";
+import UserDropdown from "./dropdowns/user-dropdown";
+import { Skeleton } from "./ui/skeleton";
 
 export default function Navbar() {
   const [isNavMenuVisible, setIsNavMenuVisible] = useState<boolean>(false);
@@ -45,7 +48,7 @@ export default function Navbar() {
         </div>
       )}
 
-      <div className="hidden gap-40 lg:flex">
+      <div className="hidden gap-40 lg:flex lg:items-center">
         <SearchBox />
         <SignInButton />
       </div>
@@ -118,10 +121,24 @@ function SearchBox() {
 }
 
 function SignInButton() {
+  const { data: user, isLoading } = useProfile();
+
+  if (isLoading) {
+    return <Skeleton className="h-8 w-28 border border-gray-100 shadow" />;
+  }
+
   return (
-    <Button variant="ghost">
-      <FaRegUser className="size-4" />
-      Sign In
-    </Button>
+    <>
+      {user ? (
+        <UserDropdown user={user} />
+      ) : (
+        <Link to="/login">
+          <Button variant="ghost">
+            <FaRegUser className="size-4" />
+            Sign In
+          </Button>
+        </Link>
+      )}
+    </>
   );
 }

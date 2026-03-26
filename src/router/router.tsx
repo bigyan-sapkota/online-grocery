@@ -1,4 +1,5 @@
 import ProtectedRoute from "@/components/protected-route";
+import PublicRoute from "@/components/public-route";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import MainLayout from "@/layouts/main-layout";
 import AboutUsPage from "@/pages/about-us-page";
@@ -20,8 +21,22 @@ export const router = createBrowserRouter([
       { path: "/about-us", element: <AboutUsPage /> },
       { path: "/products", element: <ProductsPage /> },
       { path: "/products/:id", element: <ProductDetailsPage /> },
-      { path: "/login", element: <LoginPage /> },
-      { path: "/register", element: <RegisterPage /> },
+      {
+        path: "/login",
+        element: (
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: "/register",
+        element: (
+          <PublicRoute>
+            <RegisterPage />{" "}
+          </PublicRoute>
+        ),
+      },
     ],
   },
   {
