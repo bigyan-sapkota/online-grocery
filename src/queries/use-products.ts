@@ -34,6 +34,7 @@ export const productsKey = (filter?: Filter) => [
     owner: filter?.owner || undefined,
     limit: filter?.limit || 20,
     sort: filter?.sort || "recent",
+    category: filter?.category || undefined,
     price_gte: filter?.price_gte || undefined,
     price_lte: filter?.price_lte || undefined,
   },
@@ -51,6 +52,7 @@ async function fetchProducts(filter?: Filter): Promise<Product[]> {
     let params: Record<string, string | number> = {};
 
     if (filter?.limit) params.limit = filter.limit;
+    if (filter?.category) params.category = filter.category;
 
     if (filter?.q?.trim()) params.q = filter.q;
     if (filter?.owner?.trim()) params.owner = filter.owner;
@@ -58,6 +60,8 @@ async function fetchProducts(filter?: Filter): Promise<Product[]> {
     if (filter?.sort) params.sort = filter.sort;
     if (filter?.price_lte?.trim()) params.price_lte = filter.price_lte;
     if (filter?.price_gte?.trim()) params.price_gte = filter.price_gte;
+
+    console.log("params : ", params);
 
     const response = await apiClient.get<ProductsResponse>("/api/products", {
       params,

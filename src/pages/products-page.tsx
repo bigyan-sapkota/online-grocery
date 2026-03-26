@@ -1,4 +1,5 @@
 import ProductCard from "@/components/cards/product-card";
+import ProductFilter from "@/components/product-filter";
 import { Skeleton } from "@/components/ui/skeleton";
 import useProducts, { type Category, type Sort } from "@/queries/use-products";
 import { useSearchParams } from "react-router-dom";
@@ -14,20 +15,36 @@ export default function ProductsPage() {
     sort: (searchParams.get("sort") as Sort) || undefined,
   };
 
-  const { data: products, isLoading } = useProducts(filter);
+  const { data: products, isLoading, isError } = useProducts(filter);
 
   if (isLoading) {
     return <ProductsLoadingSkeleton />;
   }
 
+  if (isError) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <h1>Error try again...</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto my-8 flex max-w-[1440px]">
-      <div className="hidden h-150 w-1/5 bg-gray-200 lg:block"></div>
-      <div className="grid grid-cols-2 justify-items-center gap-8 px-4 md:grid-cols-3 lg:w-4/5 lg:grid-cols-4">
-        {products?.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      <div className="sticky top-6 hidden h-150 w-1/5 bg-gray-50 p-6 shadow-sm lg:block">
+        <ProductFilter />
       </div>
+      {products?.length ? (
+        <div className="grid grid-cols-2 justify-items-center gap-8 px-4 md:grid-cols-3 lg:w-4/5 lg:grid-cols-4">
+          {products?.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex w-full items-center justify-center text-2xl font-bold">
+          <h1>No Products found</h1>
+        </div>
+      )}
     </div>
   );
 }
