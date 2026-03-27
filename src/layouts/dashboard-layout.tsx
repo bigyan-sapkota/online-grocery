@@ -1,14 +1,24 @@
 import { Outlet } from "react-router-dom";
 import DashboardSidebar from "./dashboard-sidebar";
 import { Toaster } from "sonner";
+import DashboardHeader from "./dashboard-header";
+import useProfile from "@/queries/use-profile";
 
 export default function DashboardLayout() {
+  const { data: user } = useProfile();
+
+  if (!user) {
+    return <p>abc</p>;
+  }
+
   return (
     <div className="flex">
       <DashboardSidebar />
-      <div>
-        {/* todo : add header */}
-        <Outlet />
+      <div className="w-full">
+        <DashboardHeader user={user} />
+        <div className="px-4">
+          <Outlet />
+        </div>
       </div>
       <Toaster />
     </div>

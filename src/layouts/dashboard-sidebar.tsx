@@ -6,13 +6,13 @@ const items = [
   { id: 1, title: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
   {
     id: 2,
-    title: "Manage Products",
+    title: "Products",
     icon: Package,
     href: "/dashboard/products",
   },
   {
     id: 3,
-    title: "Manage Orders",
+    title: "Orders",
     icon: ShoppingCart,
     href: "/dashboard/orders",
   },
@@ -23,8 +23,8 @@ export default function DashboardSidebar() {
   const arr = pathname.split("/");
   console.log(arr.slice(1));
   return (
-    <aside>
-      <div className="h-16 flex items-center border-b px-6">
+    <aside className="h-screen w-72 border-r">
+      <div className="flex h-16 items-center border-b px-6">
         <Link to="/">
           <h1 className="text-primary text-xl font-bold md:text-2xl">
             Online Grocery
@@ -32,7 +32,7 @@ export default function DashboardSidebar() {
         </Link>
       </div>
 
-      <nav className="p-4 pr-0 space-y-2">
+      <nav className="space-y-2 p-4 pr-4">
         {items.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href;
@@ -42,7 +42,7 @@ export default function DashboardSidebar() {
               key={item.id}
               to={item.href}
               className={cn(
-                "flex items-center gap-3 px-4 py-2 rounded-lg text-sm transition",
+                "flex items-center gap-3 rounded-lg px-4 py-2 text-sm transition",
                 active && "bg-gray-300",
               )}
             >

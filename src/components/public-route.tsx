@@ -1,20 +1,17 @@
 import useProfile from "@/queries/use-profile";
 import { Navigate } from "react-router-dom";
 import { toast } from "sonner";
+import ApiLoader from "./api-loader";
 
 type PublicRouteProps = {
   children: React.ReactNode;
 };
 
 export default function PublicRoute({ children }: PublicRouteProps) {
-  const { data: user, isLoading, isError, error } = useProfile();
+  const { data: user, isLoading } = useProfile();
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (isError) {
-    return <h1>Error loading user because {error.message}</h1>;
+    return <ApiLoader />;
   }
 
   if (user) {

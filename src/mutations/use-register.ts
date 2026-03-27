@@ -2,6 +2,9 @@ import { apiClient } from "@/lib/api-client";
 import { extractErrorMessage, imageBbUrlGenerator } from "@/lib/utils";
 import type { User } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import useLogin, { loginUser } from "./use-login";
 
 type RegisterPayload = {
   name: string;
@@ -16,9 +19,29 @@ type RegisterResponse = {
 };
 
 export default function useRegister() {
+  const navigate = useNavigate();
+  const { mutate } = useLogin();
   return useMutation({
     mutationKey: ["register"],
     mutationFn: registerUser,
+
+    onMutate: () => {
+      toast.loading("Registering user...");
+    },
+
+    onError: () => {
+      toast.dismiss();
+      toast.error("Error registering user");
+    },
+
+    onSuccess: async (_, variables) => {
+      const { email, password } = variables;
+      toast.dismiss();
+      toast.success("User registered successfully");
+      navigate("/");
+
+      mutate({ email, password });
+    },
   });
 }
 

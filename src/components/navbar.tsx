@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <header className="relative mx-auto mt-4 flex max-w-[1440px] items-center justify-between px-4 md:mt-6 lg:h-12">
       <Link to="/">
-        <h1 className="text-primary text-xl font-bold md:text-2xl lg:text-4xl">
+        <h1 className="text-primary text-xl font-bold lg:text-4xl">
           Online Grocery
         </h1>
       </Link>
