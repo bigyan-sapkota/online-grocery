@@ -11,6 +11,7 @@ import {
 import type { User } from "@/types/user";
 import { LayoutDashboard, LogOut, UserIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import LogoutDialog from "../dialogues/logout-dialog";
 
 type UserDropdownProps = {
   user: User;
@@ -65,10 +66,12 @@ export default function UserDropdown({ user }: UserDropdownProps) {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="flex items-center gap-2 text-red-500">
-            <LogOut size={16} className="text-red-500" />
-            Logout
-          </DropdownMenuItem>
+          <LogoutDialog>
+            <DropdownMenuItem className="flex items-center gap-2 text-red-500 hover:text-red-700!">
+              <LogOut size={16} className="text-red-500" />
+              Logout
+            </DropdownMenuItem>
+          </LogoutDialog>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

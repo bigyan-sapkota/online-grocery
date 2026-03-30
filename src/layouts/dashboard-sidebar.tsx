@@ -20,10 +20,8 @@ const items = [
 
 export default function DashboardSidebar() {
   const { pathname } = useLocation();
-  const arr = pathname.split("/");
-  console.log(arr.slice(1));
   return (
-    <aside className="h-screen w-72 border-r">
+    <aside className="sticky top-0 h-screen w-72 border-r">
       <div className="flex h-16 items-center border-b px-6">
         <Link to="/">
           <h1 className="text-primary text-xl font-bold md:text-2xl">
