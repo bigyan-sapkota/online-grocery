@@ -1,3 +1,6 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -6,27 +9,33 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
+import useLogout from "@/mutations/use-logout";
 
-type LogoutDialogProps = {
-  children: React.ReactNode;
+type Props = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 };
 
-export default function LogoutDialog({ children }: LogoutDialogProps) {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">{children}</Button>
-      </DialogTrigger>
+export default function LogoutDialog({ open, onOpenChange }: Props) {
+  const { mutate, isPending, isSuccess } = useLogout();
 
-      <DialogContent className="sm:max-w-sm">
+  const handleLogout = () => {
+    if (isPending) return;
+    mutate();
+
+    if (isSuccess) {
+      onOpenChange(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle>Logout</DialogTitle>
+          <DialogTitle>Are you sure?</DialogTitle>
           <DialogDescription>
-            Are you sure you want to logout? You will need to login again to
-            continue.
+            You will need to log in again to access your account.
           </DialogDescription>
         </DialogHeader>
 
@@ -34,7 +43,14 @@ export default function LogoutDialog({ children }: LogoutDialogProps) {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button onClick={() => console.log("Logging out...")}>Logout</Button>
+
+          <Button
+            variant="destructive"
+            disabled={isPending}
+            onClick={handleLogout}
+          >
+            {isPending ? "Logging out…" : "Logout"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

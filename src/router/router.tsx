@@ -3,6 +3,7 @@ import PublicRoute from "@/components/public-route";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import MainLayout from "@/layouts/main-layout";
 import AboutUsPage from "@/pages/about-us-page";
+import DashboardAddProductPage from "@/pages/dashboard-add-product-page";
 import DashboardHomePage from "@/pages/dashboard-home-page";
 import DashboardOrdersPage from "@/pages/dashboard-orders-page";
 import DashboardProductsPage from "@/pages/dashboard-products-page";
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <DashboardHomePage /> },
       { path: "products", element: <DashboardProductsPage /> },
+      { path: "products/add", element: <DashboardAddProductPage /> },
       { path: "orders", element: <DashboardOrdersPage /> },
     ],
   },

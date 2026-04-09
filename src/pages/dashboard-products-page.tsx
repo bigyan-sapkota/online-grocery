@@ -30,7 +30,7 @@ export default function DashboardProductsPage() {
 
         <Button asChild>
           <Link
-            to="/dashboard/products/new"
+            to="/dashboard/products/add"
             className="flex items-center gap-2"
           >
             <Plus size={16} />

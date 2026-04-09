@@ -16,7 +16,7 @@ export default function DashboardLayout() {
       <DashboardSidebar />
       <div className="w-full">
         <DashboardHeader user={user} />
-        <div className="px-4 pt-4">
+        <div className="h-full bg-gray-50 px-4 pt-4">
           <Outlet />
         </div>
       </div>

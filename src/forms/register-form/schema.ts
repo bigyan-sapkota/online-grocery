@@ -1,3 +1,4 @@
+import { imageFileSchema } from "@/schema";
 import { z } from "zod";
 
 export const registerSchema = z
@@ -19,7 +20,7 @@ export const registerSchema = z
       .optional()
       .or(z.literal("")),
 
-    image: z.instanceof(File).optional().or(z.any().optional()),
+    image: imageFileSchema,
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",

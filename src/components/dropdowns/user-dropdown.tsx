@@ -12,12 +12,14 @@ import type { User } from "@/types/user";
 import { LayoutDashboard, LogOut, UserIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import LogoutDialog from "../dialogues/logout-dialog";
+import { useState } from "react";
 
 type UserDropdownProps = {
   user: User;
 };
 
 export default function UserDropdown({ user }: UserDropdownProps) {
+  const [isLogoutOpen, setLogoutOpen] = useState(false);
   const name = user?.name;
 
   const profileFallback = name
@@ -66,14 +68,16 @@ export default function UserDropdown({ user }: UserDropdownProps) {
 
           <DropdownMenuSeparator />
 
-          <LogoutDialog>
-            <DropdownMenuItem className="flex items-center gap-2 text-red-500 hover:text-red-700!">
-              <LogOut size={16} className="text-red-500" />
-              Logout
-            </DropdownMenuItem>
-          </LogoutDialog>
+          <DropdownMenuItem
+            className="flex items-center gap-2 text-red-500 hover:text-red-700!"
+            onSelect={() => setLogoutOpen(true)}
+          >
+            <LogOut size={16} className="text-red-500" />
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <LogoutDialog open={isLogoutOpen} onOpenChange={setLogoutOpen} />
     </div>
   );
 }

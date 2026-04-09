@@ -1,6 +1,7 @@
 import type { LoginSchema } from "@/forms/login-form/schema";
 import { apiClient } from "@/lib/api-client";
 import { extractErrorMessage } from "@/lib/utils";
+import { invalidateProfile } from "@/queries/use-profile";
 import type { User } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 
@@ -12,6 +13,10 @@ export default function useLogin() {
   return useMutation({
     mutationKey: ["login"],
     mutationFn: loginUser,
+
+    onSuccess: () => {
+      invalidateProfile();
+    },
   });
 }
 
